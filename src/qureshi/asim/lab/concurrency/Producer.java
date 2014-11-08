@@ -1,7 +1,6 @@
 package qureshi.asim.lab.concurrency;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Producer extends Task {
 
@@ -24,9 +23,9 @@ public class Producer extends Task {
 
     }
 
-    private void putItems(BufferQueue<QueueItem> bufferQueue) {
+    protected void putItems(BufferQueue<QueueItem> bufferQueue) {
 
-        List<QueueItem> items = SampleDatabase.queryItems();
+        List<QueueItem> items = SampleDatabase.queryItems(Main.FETCH_SIZE);
 
         if(items != null){
             for (QueueItem item : items) {

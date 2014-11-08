@@ -3,13 +3,11 @@ package qureshi.asim.lab.concurrency;
 /**
  * Created with IntelliJ IDEA.
  * User: asim.qureshi
- * Date: 11/8/14
- * Time: 6:11 PM
+ * Date: 11/9/14
+ * Time: 12:08 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface BufferQueue<T> {
+public interface ThresholdAwareBufferQueue<T> extends BufferQueue<T> {
 
-    T get();
-
-    boolean put(T t);
+    boolean thresholdReached();
 }

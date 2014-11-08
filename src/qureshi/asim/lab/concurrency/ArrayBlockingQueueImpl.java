@@ -7,23 +7,25 @@ import java.util.concurrent.TimeUnit;
 
 public class ArrayBlockingQueueImpl<T> implements BufferQueue<T> {
 
-    private int size = 120;
+    protected int size = 120;
 
    // private ArrayBlockingQueue<T> queue =  new ArrayBlockingQueue<T>(size, true);
 
-    private LinkedBlockingQueue<T> queue =  new LinkedBlockingQueue<T>(size);
+    protected LinkedBlockingQueue<T> queue;
 
+    public ArrayBlockingQueueImpl() {
+
+        queue = new LinkedBlockingQueue<T>(size);
+    }
 
     public ArrayBlockingQueueImpl(int size) {
+
+        queue = new LinkedBlockingQueue<T>(size);
         this.size = size;
     }
 
-    @Override
-    public int getSize() {
-        return size;
-    }
 
-    private void print(Serializable t){
+    protected void print(Serializable t){
 
         System.out.println(System.currentTimeMillis() + ":" + Thread.currentThread().getName() + ":" + t);
     }

@@ -11,8 +11,8 @@ import java.util.*;
  */
 public class SampleDatabase {
 
-    private static final int TOT_ITEMS = TestRunner.TOT_ITEMS;
-    private static final int FETCH_SIZE = TestRunner.FETCH_SIZE;
+    private static final int TOT_ITEMS = Main.TOT_ITEMS;
+    private static final int FETCH_SIZE = Main.FETCH_SIZE;
 
     private static Map<QueueItem, Boolean> database = Collections.synchronizedMap(new  HashMap<QueueItem, Boolean>(TOT_ITEMS));
 
@@ -26,7 +26,7 @@ public class SampleDatabase {
 
     }
 
-    private static int noOfIteration = 1;
+    private static int timesDatabaseQueried = 1;
     private static boolean isEmpty = false;
 
 
@@ -35,14 +35,18 @@ public class SampleDatabase {
         return isEmpty;
     }
 
-    public static synchronized List<QueueItem> queryItems(){
+    public static synchronized List<QueueItem> queryItems( int fetchSize){
 
-        if(isEmpty) return null;
+        if(isEmpty) {
+
+            //System.out.println("Returning null...");
+            return null;
+        }
 
 
-        System.out.println("noOfIteration = " + noOfIteration);
+//        System.out.println("timesDatabaseQueried = " + timesDatabaseQueried);
 
-        List<QueueItem> returnItems = new ArrayList<QueueItem>(FETCH_SIZE);
+        List<QueueItem> returnItems = new ArrayList<QueueItem>(fetchSize);
 
         int fetchCount = 0;
 
@@ -63,13 +67,13 @@ public class SampleDatabase {
         if(fetchCount == 0){
 
             isEmpty = true;
-            System.err.println("Database is Empty now!!!! ::: in " + noOfIteration);
-            new RuntimeException("Database is Empty now!!!!" + noOfIteration);
+            System.err.println("Database is Empty now!!!! ::: in " + timesDatabaseQueried);
+            new RuntimeException("Database is Empty now!!!!" + timesDatabaseQueried);
 
         }
 
 
-        noOfIteration++;
+        timesDatabaseQueried++;
         return returnItems;
     }
 }
