@@ -1,5 +1,9 @@
 package qureshi.asim.lab.concurrency;
 
+import qureshi.asim.lab.concurrency.bufferqueue.*;
+import qureshi.asim.lab.concurrency.bufferqueue.consumer.ConsumerManager;
+import qureshi.asim.lab.concurrency.bufferqueue.producer.BufferQueueProducer;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -28,21 +32,28 @@ public class Main {
 
         System.out.println("In Main...." + startTime);
 
-//        BufferQueue<QueueItem> queue = new ArrayBlockingQueueImpl<QueueItem>(BUFFER_CAPACITY);
-        ThresholdAwareBufferQueue<QueueItem> queue = new ThresholdWatchingArrayBlockingQueueImpl<QueueItem>(BUFFER_CAPACITY, BUFFER_REMAINING_CAPACITY_THRESHOLD);
+        BufferQueueContainer container = new BufferQueueContainer();
+        container.init();
+        container.start();
 
-        ScheduledExecutorService producers = Executors.newSingleThreadScheduledExecutor();
+        simulateConsumers(container);
 
-//        Producer producer = new Producer(queue);
-        Producer producer = new ThresholdedProducer(queue);
+        container.shutdown();
 
-        producers.scheduleAtFixedRate(producer, 0, PRODUCER_DELAY_IN_SECS, TimeUnit.SECONDS);
+        System.out.println("Out Main...");
+        long endTimeInSecs
+                = (System.currentTimeMillis() - startTime)/1000L;
+        System.out.println("Total time in secs:" + endTimeInSecs);
+
+    }
+
+    private static void simulateConsumers(BufferQueueContainer container) {
 
         ScheduledExecutorService consumers = Executors.newSingleThreadScheduledExecutor();
 
         ExecutorService consumer = Executors.newFixedThreadPool(NO_OF_CONSUMERS);
 
-        consumers.scheduleAtFixedRate(new ConsumerManager(queue, consumer, NO_OF_CONSUMERS), 2, CONSUMER_DELAY_IN_SECS, TimeUnit.SECONDS);
+        consumers.scheduleAtFixedRate(new ConsumerManager(container, consumer, NO_OF_CONSUMERS), 2, CONSUMER_DELAY_IN_SECS, TimeUnit.SECONDS);
 
 
         try {
@@ -53,28 +64,9 @@ public class Main {
             e.printStackTrace();
         }
 
-        consumer.shutdown();
-        consumers.shutdown();
-        producers.shutdown();
-
-        try {
-
-            consumer.awaitTermination(10, TimeUnit.SECONDS);
-            consumers.awaitTermination(10, TimeUnit.SECONDS);
-            producers.awaitTermination(10, TimeUnit.SECONDS);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-
-
-        System.out.println("Out Main...");
-        long endTimeInSecs
-                = (System.currentTimeMillis() - startTime)/1000L;
-        System.out.println("Total time in secs:" + endTimeInSecs);
-
+        consumer.shutdownNow();
+        consumers.shutdownNow();
     }
-
 
 
 }

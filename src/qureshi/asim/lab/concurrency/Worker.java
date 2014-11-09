@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Time: 4:39 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Task implements Runnable {
+public abstract class Worker implements Runnable {
 
 
     public void print(Serializable str){
@@ -20,6 +20,18 @@ public abstract class Task implements Runnable {
 
 
     }
+
+
+    @Override
+    public void run() {
+
+          this.execute();
+
+    }
+
+
+    public abstract void execute();
+
 
 
 }

@@ -1,4 +1,4 @@
-package qureshi.asim.lab.concurrency;
+package qureshi.asim.lab.concurrency.bufferqueue;
 
 /**
  * Created with IntelliJ IDEA.

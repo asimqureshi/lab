@@ -1,14 +1,10 @@
 package qureshi.asim.lab.concurrency;
 
+import qureshi.asim.lab.concurrency.bufferqueue.QueueItem;
+
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: asim.qureshi
- * Date: 11/8/14
- * Time: 7:42 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class SampleDatabase {
 
     private static final int TOT_ITEMS = Main.TOT_ITEMS;
@@ -40,8 +36,7 @@ public class SampleDatabase {
         if(isEmpty) {
 
             //System.out.println("Returning null...");
-            return null;
-        }
+            return null;            }
 
 
 //        System.out.println("timesDatabaseQueried = " + timesDatabaseQueried);

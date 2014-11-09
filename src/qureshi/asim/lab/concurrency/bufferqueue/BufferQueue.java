@@ -1,4 +1,4 @@
-package qureshi.asim.lab.concurrency;
+package qureshi.asim.lab.concurrency.bufferqueue;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,5 +11,10 @@ public interface BufferQueue<T> {
 
     T get();
 
-    boolean put(T t);
+    boolean put(T item);
+
+    boolean remainingCapacityThresholdReached();
+
+    boolean prioritize(T item);
+
 }

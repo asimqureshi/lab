@@ -1,4 +1,8 @@
-package qureshi.asim.lab.concurrency;
+package qureshi.asim.lab.concurrency.bufferqueue.consumer;
+
+import qureshi.asim.lab.concurrency.bufferqueue.BufferQueue;
+import qureshi.asim.lab.concurrency.bufferqueue.QueueItem;
+import qureshi.asim.lab.concurrency.Worker;
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,7 +11,7 @@ package qureshi.asim.lab.concurrency;
  * Time: 4:10 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Consumer extends Task {
+public class Consumer extends Worker {
 
     private BufferQueue<QueueItem> bufferQueue;
 
@@ -17,7 +21,7 @@ public class Consumer extends Task {
     }
 
     @Override
-    public void run() {
+    public void execute() {
 
      //   print("In Consumer");
         QueueItem item = bufferQueue.get();
